@@ -1,0 +1,346 @@
+
+<style>
+*{box-sizing:border-box;}
+.wrap{display:flex;min-height:700px;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);overflow:hidden;}
+.panel-left{width:320px;min-width:320px;border-right:0.5px solid var(--color-border-tertiary);display:flex;flex-direction:column;background:var(--color-background-primary);}
+.tabs{display:flex;flex-wrap:wrap;gap:4px;padding:10px 10px 8px;border-bottom:0.5px solid var(--color-border-tertiary);}
+.tab{font-size:11px;padding:4px 9px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:transparent;color:var(--color-text-secondary);cursor:pointer;font-family:var(--font-sans);}
+.tab.active{background:var(--color-background-secondary);color:var(--color-text-primary);font-weight:500;}
+.fields{flex:1;overflow-y:auto;padding:14px;}
+.field{margin-bottom:12px;}
+.field label{display:block;font-size:11px;color:var(--color-text-secondary);margin-bottom:4px;}
+.field input,.field textarea{width:100%;font-family:var(--font-sans);font-size:13px;}
+.field textarea{resize:vertical;}
+.sub-card{padding:10px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);margin-bottom:10px;}
+.sub-card-title{font-size:12px;font-weight:500;color:var(--color-text-primary);margin:0 0 8px;}
+.row-item{display:flex;gap:6px;align-items:center;margin-bottom:6px;}
+.row-item input{flex:1;font-size:12px;}
+.row-item input.url-inp{font-size:11px;color:var(--color-text-secondary);}
+.btn-sm{font-size:11px;padding:3px 8px;cursor:pointer;font-family:var(--font-sans);}
+.btn-add{font-size:12px;padding:6px 12px;cursor:pointer;font-family:var(--font-sans);margin-top:4px;}
+.footer-bar{padding:10px 14px;border-top:0.5px solid var(--color-border-tertiary);}
+.copy-btn{width:100%;padding:10px;font-size:13px;font-weight:500;background:#1A1A2E;color:#C8A96E;border:none;border-radius:var(--border-radius-md);cursor:pointer;font-family:var(--font-sans);letter-spacing:.5px;transition:opacity .15s;}
+.copy-btn:hover{opacity:.85;}
+.copy-btn.ok{background:#1a3a1a;color:#6dbf6d;}
+.panel-right{flex:1;overflow-y:auto;background:#F4F1EC;padding:16px 12px;}
+.preview{max-width:430px;margin:0 auto;background:#FEFCF8;border-top:5px solid #C8A96E;font-family:'Malgun Gothic','맑은 고딕',Arial,sans-serif;}
+.pv-header{background:#1A1A2E;padding:20px 22px;}
+.pv-eyebrow{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;}
+.pv-brand-label{font-size:8px;font-weight:700;color:#C8A96E;letter-spacing:2px;margin:0 0 2px;}
+.pv-date-text{font-size:8px;color:#8888AA;margin:0;}
+.pv-logo{font-size:14px;font-weight:700;color:#fff;letter-spacing:3px;margin:0;}
+.pv-divider{border:none;border-top:1px solid #C8A96E;margin:0 0 10px;}
+.pv-title{font-size:18px;font-weight:700;color:#fff;margin:0 0 4px;line-height:1.3;}
+.pv-subtitle{font-size:11px;color:#AAAACC;margin:0 0 12px;line-height:1.4;}
+.pv-translate{display:inline-block;background:#C8A96E;padding:6px 14px;font-size:9px;font-weight:700;color:#1A1A2E;text-decoration:none;}
+.pv-section{padding:14px 22px;}
+.pv-section.alt{background:#F4F1EC;}
+.pv-section.dark{background:#1A1A2E;}
+.pv-eyebrow-label{font-size:8px;font-weight:700;color:#888;letter-spacing:2px;margin:0 0 8px;}
+.pv-eyebrow-label.gold{color:#C8A96E;}
+.pv-winners-box{background:#1A1A2E;padding:12px 14px;}
+.pv-winners-title{font-size:10px;font-weight:700;color:#C8A96E;margin:0 0 6px;}
+.pv-winner-name{font-size:11px;color:#FEFCF8;margin:2px 0;}
+.pv-cols{display:flex;gap:10px;}
+.pv-col{flex:1;border-top:3px solid #1A1A2E;padding-top:8px;}
+.pv-col.gold-top{border-top-color:#C8A96E;}
+.pv-col-title{font-size:11px;font-weight:700;color:#1A1A2E;margin:0 0 5px;}
+.pv-col-body{font-size:10px;color:#444;line-height:1.6;margin:0;white-space:pre-wrap;}
+.pv-app-img{width:100%;display:block;margin-bottom:10px;}
+.pv-app-box{background:#1A1A2E;border-left:4px solid #C8A96E;padding:10px 14px;}
+.pv-app-text{font-size:11px;color:#fff;line-height:1.6;margin:0;white-space:pre-wrap;}
+.pv-ref-title{font-size:13px;font-weight:700;color:#fff;margin:0 0 12px;}
+.pv-q-row{display:flex;gap:6px;margin-bottom:7px;}
+.pv-q-num{font-size:10px;font-weight:700;color:#C8A96E;white-space:nowrap;}
+.pv-q-text{font-size:10px;color:#DDDDEE;line-height:1.6;margin:0;}
+.pv-submit{background:#C8A96E;text-align:center;padding:9px;margin-top:12px;}
+.pv-submit span{font-size:10px;font-weight:700;color:#1A1A2E;}
+.pv-tip-box{border-left:4px solid #C8A96E;background:#F4F1EC;padding:10px 14px;}
+.pv-tip-title{font-size:12px;font-weight:700;color:#1A1A2E;margin:0 0 5px;}
+.pv-tip-body{font-size:10px;color:#444;line-height:1.6;margin:0;white-space:pre-wrap;}
+.pv-archive-section{padding:14px 22px;background:#1A1A2E;}
+.pv-archive-grid{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
+.pv-archive-btn{background:transparent;border:1px solid #C8A96E;padding:5px 10px;font-size:9px;color:#C8A96E;text-decoration:none;display:inline-block;font-family:'Malgun Gothic','맑은 고딕',Arial,sans-serif;}
+.pv-footer{background:#1A1A2E;border-top:3px solid #C8A96E;padding:12px 22px;display:flex;justify-content:space-between;align-items:center;}
+.pv-footer-brand{font-size:10px;font-weight:700;color:#fff;margin:0 0 2px;}
+.pv-footer-sub{font-size:8px;color:#8888AA;margin:0;}
+.pv-footer-unsub{font-size:8px;color:#556677;text-align:right;margin:0;}
+.note{font-size:11px;color:var(--color-text-secondary);background:var(--color-background-secondary);padding:8px 10px;border-radius:var(--border-radius-md);line-height:1.6;margin-bottom:10px;}
+</style>
+
+<div class="wrap">
+  <div class="panel-left">
+    <div class="tabs" id="tabs"></div>
+    <div class="fields" id="fields"></div>
+    <div class="footer-bar">
+      <button class="copy-btn" id="copyBtn" onclick="copyHTML()">Outlook HTML 복사하기</button>
+    </div>
+  </div>
+  <div class="panel-right">
+    <div class="preview" id="preview"></div>
+  </div>
+</div>
+
+<script>
+const D={
+  vol:"12",date:"2025년 3월호",
+  title:"나는 어떠한 리더일까?",
+  subtitle:"내가 의도한 리더십과 내가 미처 보지 못했던 부분",
+  translateUrl:"https://mailchimp-landing-page.com",
+  winners:["홍길동","김철수","이영희"],
+  leftColTitle:"왼쪽 컬럼 제목",leftColContent:"왼쪽 컬럼 본문 내용을 입력하세요.\n\n여러 줄도 가능합니다.",
+  rightColTitle:"오른쪽 컬럼 제목",rightColContent:"오른쪽 컬럼 본문 내용을 입력하세요.\n\n여러 줄도 가능합니다.",
+  appQuestion:"이번 달 Application Question을 입력하세요.",appImageUrl:"",
+  reflectionQuestions:["성찰 질문 1을 입력하세요.","성찰 질문 2를 입력하세요."],
+  reflectionSubmitUrl:"https://submit-form-url.com",
+  tipTitle:"이달의 팁 제목",tipContent:"이달의 팁 내용을 입력하세요.\n\n구체적인 실천 방법을 적어보세요.",
+  archives:[
+    {label:"2025년 2월호 · Vol.11",url:"https://onepass.link/feb"},
+    {label:"2025년 1월호 · Vol.10",url:"https://onepass.link/jan"},
+    {label:"2024년 12월호 · Vol.9",url:"https://onepass.link/dec"},
+  ]
+};
+
+const sections=[
+  {id:"basic",label:"기본 정보"},{id:"winners",label:"당첨자"},
+  {id:"body",label:"본문 2컬럼"},{id:"app",label:"Application Q"},
+  {id:"reflection",label:"성찰 질문"},{id:"tip",label:"Tip"},
+  {id:"archive",label:"📁 Archive"}
+];
+let activeTab="basic";
+function $(id){return document.getElementById(id);}
+function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
+function field(label,inputHtml){return`<div class="field"><label>${label}</label>${inputHtml}</div>`;}
+function inp(key,placeholder=""){return`<input value="${esc(D[key])}" placeholder="${placeholder}" oninput="D['${key}']=this.value;renderPreview()">`;}
+function txa(key,rows=4){return`<textarea rows="${rows}" oninput="D['${key}']=this.value;renderPreview()">${esc(D[key])}</textarea>`;}
+
+function renderTabs(){
+  $("tabs").innerHTML=sections.map(s=>`<button class="tab${s.id===activeTab?" active":""}" onclick="setTab('${s.id}')">${s.label}</button>`).join("");
+}
+function setTab(id){activeTab=id;renderTabs();renderFields();}
+
+function renderFields(){
+  let h="";
+  if(activeTab==="basic"){
+    h+=field("Vol. 번호",inp("vol"));
+    h+=field("발행 날짜",inp("date"));
+    h+=field("제목",inp("title"));
+    h+=field("소제목",txa("subtitle",2));
+    h+=field("한/영 번역 버튼 URL",inp("translateUrl","https://..."));
+  }
+  if(activeTab==="winners"){
+    h+='<div class="field"><label>당첨자 이름</label>';
+    D.winners.forEach((w,i)=>{h+=`<div class="row-item"><input value="${esc(w)}" placeholder="당첨자 ${i+1}" oninput="D.winners[${i}]=this.value;renderPreview()"><button class="btn-sm" onclick="removeWinner(${i})">✕</button></div>`;});
+    h+='</div>';
+    h+=`<button class="btn-add" onclick="addWinner()">+ 당첨자 추가</button>`;
+  }
+  if(activeTab==="body"){
+    h+=`<div class="sub-card"><p class="sub-card-title">왼쪽 컬럼</p>`;
+    h+=field("제목",inp("leftColTitle"));h+=field("내용",txa("leftColContent",5));h+=`</div>`;
+    h+=`<div class="sub-card"><p class="sub-card-title">오른쪽 컬럼</p>`;
+    h+=field("제목",inp("rightColTitle"));h+=field("내용",txa("rightColContent",5));h+=`</div>`;
+  }
+  if(activeTab==="app"){
+    h+=field("이미지 URL (선택사항)",inp("appImageUrl","https://..."));
+    h+=field("Application Question",txa("appQuestion",5));
+  }
+  if(activeTab==="reflection"){
+    D.reflectionQuestions.forEach((q,i)=>{
+      h+=`<div class="field"><label style="display:flex;justify-content:space-between">Q${i+1} <button class="btn-sm" onclick="removeReflection(${i})">✕</button></label><textarea rows="2" oninput="D.reflectionQuestions[${i}]=this.value;renderPreview()">${esc(q)}</textarea></div>`;
+    });
+    h+=`<button class="btn-add" onclick="addReflection()">+ 질문 추가</button>`;
+    h+=field("제출 버튼 URL",inp("reflectionSubmitUrl","https://..."));
+  }
+  if(activeTab==="tip"){
+    h+=field("팁 제목",inp("tipTitle"));
+    h+=field("팁 내용",txa("tipContent",6));
+  }
+  if(activeTab==="archive"){
+    h+=`<div class="note">각 에디션의 버튼 레이블과 OnePass 링크를 입력하세요. 새 호를 발행할 때마다 맨 위에 추가하세요.</div>`;
+    D.archives.forEach((a,i)=>{
+      h+=`<div class="sub-card">
+        <p class="sub-card-title" style="display:flex;justify-content:space-between;align-items:center;">에디션 ${i+1} <button class="btn-sm" onclick="removeArchive(${i})">✕ 삭제</button></p>
+        <div class="field"><label>버튼 레이블</label><input value="${esc(a.label)}" placeholder="예: 2025년 2월호 · Vol.11" oninput="D.archives[${i}].label=this.value;renderPreview()"></div>
+        <div class="field"><label>OnePass URL</label><input class="url-inp" value="${esc(a.url)}" placeholder="https://onepass.link/..." oninput="D.archives[${i}].url=this.value;renderPreview()"></div>
+      </div>`;
+    });
+    h+=`<button class="btn-add" onclick="addArchive()">+ 에디션 추가</button>`;
+  }
+  $("fields").innerHTML=h;
+}
+
+function addWinner(){D.winners.push("");renderFields();renderPreview();}
+function removeWinner(i){D.winners.splice(i,1);renderFields();renderPreview();}
+function addReflection(){D.reflectionQuestions.push("");renderFields();renderPreview();}
+function removeReflection(i){D.reflectionQuestions.splice(i,1);renderFields();renderPreview();}
+function addArchive(){D.archives.unshift({label:"",url:""});renderFields();renderPreview();}
+function removeArchive(i){D.archives.splice(i,1);renderFields();renderPreview();}
+
+function renderPreview(){
+  const p=$("preview");
+  const wHTML=D.winners.filter(w=>w).map(w=>`<p class="pv-winner-name">★ ${w}</p>`).join("");
+  const rHTML=D.reflectionQuestions.filter(q=>q).map((q,i)=>`<div class="pv-q-row"><span class="pv-q-num">Q${i+1}.</span><p class="pv-q-text">${q}</p></div>`).join("");
+  const archiveBtns=D.archives.filter(a=>a.label).map(a=>`<a href="${a.url}" class="pv-archive-btn">${a.label}</a>`).join("");
+
+  p.innerHTML=`
+  <div class="pv-header">
+    <div class="pv-eyebrow"><div><p class="pv-brand-label">LEADERSHIP NEWSLETTER</p><p class="pv-date-text">${D.date||"날짜"} | Vol. ${D.vol||"00"}</p></div><p class="pv-logo">LINK</p></div>
+    <hr class="pv-divider">
+    <p class="pv-title">${D.title||"제목 입력"}</p>
+    <p class="pv-subtitle">${D.subtitle||"소제목 입력"}</p>
+    <span class="pv-translate">영어로 보기 / View in English</span>
+  </div>
+  <div class="pv-section alt">
+    <p class="pv-eyebrow-label">STARBUCKS WINNER</p>
+    <div class="pv-winners-box"><p class="pv-winners-title">이번 달 스타벅스 기프트카드 당첨자</p>${wHTML||'<p class="pv-winner-name" style="color:#556677">당첨자를 입력하세요</p>'}</div>
+  </div>
+  <div class="pv-section">
+    <p class="pv-eyebrow-label">THIS MONTH</p>
+    <div class="pv-cols">
+      <div class="pv-col"><p class="pv-col-title">${D.leftColTitle}</p><p class="pv-col-body">${D.leftColContent}</p></div>
+      <div class="pv-col gold-top"><p class="pv-col-title">${D.rightColTitle}</p><p class="pv-col-body">${D.rightColContent}</p></div>
+    </div>
+  </div>
+  <div class="pv-section alt">
+    <p class="pv-eyebrow-label">APPLICATION QUESTION</p>
+    ${D.appImageUrl?`<img src="${D.appImageUrl}" class="pv-app-img" alt="">`:""}
+    <div class="pv-app-box"><p class="pv-app-text">${D.appQuestion}</p></div>
+  </div>
+  <div class="pv-section dark">
+    <p class="pv-eyebrow-label gold">REFLECTION QUESTION</p>
+    <p class="pv-ref-title">이달의 성찰 질문</p>
+    ${rHTML||'<p class="pv-q-text">질문 입력</p>'}
+    <div class="pv-submit"><span>✏ 성찰 질문 제출하기</span></div>
+  </div>
+  <div class="pv-section">
+    <p class="pv-eyebrow-label">TIP OF THE MONTH</p>
+    <div class="pv-tip-box"><p class="pv-tip-title">${D.tipTitle}</p><p class="pv-tip-body">${D.tipContent}</p></div>
+  </div>
+  <div class="pv-archive-section">
+    <p class="pv-eyebrow-label gold">PAST EDITIONS</p>
+    <p style="font-size:11px;font-weight:700;color:#fff;margin:0 0 10px;">지난 에디션 보기</p>
+    <div class="pv-archive-grid">
+      ${archiveBtns||'<p style="font-size:10px;color:#556677;margin:0;">Archive 탭에서 에디션을 추가하세요</p>'}
+    </div>
+  </div>
+  <div class="pv-footer">
+    <div><p class="pv-footer-brand">LINK 리더십 뉴스레터</p><p class="pv-footer-sub">매월 발행 | 리더십 인사이트 & 실천 가이드</p></div>
+    <p class="pv-footer-unsub">수신 거부는 담당자에게<br>회신해 주세요.</p>
+  </div>`;
+}
+
+function generateHTML(){
+  const wRows=D.winners.filter(w=>w).map(w=>`<tr><td style="font-family:'Malgun Gothic','맑은 고딕',Arial,sans-serif;font-size:14px;color:#FEFCF8;padding:3px 0 3px 12px;line-height:20px;mso-line-height-rule:exactly;">&#11088; ${w}</td></tr>`).join("");
+  const rRows=D.reflectionQuestions.filter(q=>q).map((q,i)=>`<table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td style="padding:0 0 10px 0;"><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td valign="top" style="font-family:'Malgun Gothic','맑은 고딕',Arial,sans-serif;font-size:13px;font-weight:700;color:#C8A96E;line-height:22px;mso-line-height-rule:exactly;padding-right:10px;white-space:nowrap;">Q${i+1}.</td><td valign="top" style="font-family:'Malgun Gothic','맑은 고딕',Arial,sans-serif;font-size:13px;color:#DDDDEE;line-height:22px;mso-line-height-rule:exactly;">${q}</td></tr></table></td></tr></table>`).join("");
+  const imgBlock=D.appImageUrl?`<table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td style="padding:0 0 14px 0;"><img src="${D.appImageUrl}" width="504" style="width:100%;max-width:504px;height:auto;display:block;border:0;" alt=""/></td></tr></table>`:"";
+
+  const archiveBtnCells=D.archives.filter(a=>a.label).map(a=>
+    `<td style="padding:0 6px 8px 0;"><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td style="border:1px solid #C8A96E;padding:0;"><a href="${a.url}" target="_blank" style="font-family:'Malgun Gothic','맑은 고딕',Arial,sans-serif;font-size:11px;color:#C8A96E;text-decoration:none;padding:7px 12px;display:block;line-height:16px;mso-line-height-rule:exactly;white-space:nowrap;">${a.label}</a></td></tr></table></td>`
+  );
+  const archiveRows=[];
+  for(let i=0;i<archiveBtnCells.length;i+=3){archiveRows.push(archiveBtnCells.slice(i,i+3));}
+  const archiveHTML=archiveRows.map(row=>`<table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr>${row.join("")}</tr></table>`).join("");
+
+  return`<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<!--[if mso]><xml><o:OfficeDocumentSettings><o:AllowPNG/><o:PixelsPerInch>96</o:PixelsPerInch></o:OfficeDocumentSettings></xml><![endif]-->
+<title>${D.title}</title>
+<style>body,table,td,p,a{-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;}table,td{mso-table-lspace:0pt;mso-table-rspace:0pt;}body{margin:0!important;padding:0!important;background-color:#F4F1EC;}</style>
+</head>
+<body style="margin:0;padding:0;background-color:#F4F1EC;">
+<div style="display:none;max-height:0;overflow:hidden;mso-hide:all;font-size:1px;color:#F4F1EC;">${D.title} | ${D.subtitle}&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;</div>
+<table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color:#F4F1EC;"><tr><td align="center" style="padding:32px 16px;">
+<table role="presentation" border="0" cellpadding="0" cellspacing="0" width="600" style="max-width:600px;background-color:#FEFCF8;">
+
+<tr><td style="background-color:#C8A96E;height:5px;line-height:5px;font-size:5px;mso-line-height-rule:exactly;">&nbsp;</td></tr>
+
+<tr><td style="background-color:#1A1A2E;padding:36px 48px 30px 48px;">
+<table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%"><tr>
+<td><p style="margin:0 0 3px 0;font-family:'Malgun Gothic','맑은 고딕',Arial,sans-serif;font-size:11px;font-weight:700;color:#C8A96E;letter-spacing:3px;line-height:16px;mso-line-height-rule:exactly;">LEADERSHIP NEWSLETTER</p><p style="margin:0;font-family:'Malgun Gothic','맑은 고딕',Arial,sans-serif;font-size:11px;color:#8888AA;letter-spacing:1px;line-height:16px;mso-line-height-rule:exactly;">${D.date} &nbsp;|&nbsp; Vol. ${D.vol}</p></td>
+<td align="right" valign="top"><p style="margin:0;font-family:'Malgun Gothic','맑은 고딕',Arial,sans-serif;font-size:22px;font-weight:700;color:#FFFFFF;line-height:22px;mso-line-height-rule:exactly;letter-spacing:4px;">LINK</p></td>
+</tr></table>
+<table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td style="padding:16px 0 18px;"><table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td style="background-color:#C8A96E;height:1px;line-height:1px;font-size:1px;mso-line-height-rule:exactly;">&nbsp;</td></tr></table></td></tr></table>
+<p style="margin:0 0 8px 0;font-family:'Malgun Gothic','맑은 고딕',Arial,sans-serif;font-size:28px;font-weight:700;color:#FFFFFF;line-height:36px;mso-line-height-rule:exactly;">${D.title}</p>
+<p style="margin:0 0 18px 0;font-family:'Malgun Gothic','맑은 고딕',Arial,sans-serif;font-size:15px;color:#AAAACC;line-height:24px;mso-line-height-rule:exactly;">${D.subtitle}</p>
+<table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td style="background-color:#C8A96E;padding:10px 22px;"><a href="${D.translateUrl}" target="_blank" style="font-family:'Malgun Gothic','맑은 고딕',Arial,sans-serif;font-size:12px;font-weight:700;color:#1A1A2E;text-decoration:none;letter-spacing:1px;line-height:16px;mso-line-height-rule:exactly;display:block;">&#127760; 영어로 보기 &nbsp;/&nbsp; View in English</a></td></tr></table>
+</td></tr>
+
+<tr><td style="background-color:#F4F1EC;padding:28px 48px;">
+<p style="margin:0 0 12px 0;font-family:'Malgun Gothic','맑은 고딕',Arial,sans-serif;font-size:11px;font-weight:700;color:#888888;letter-spacing:2px;line-height:16px;mso-line-height-rule:exactly;">STARBUCKS WINNER</p>
+<table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td style="background-color:#1A1A2E;padding:18px 22px;">
+<p style="margin:0 0 10px 0;font-family:'Malgun Gothic','맑은 고딕',Arial,sans-serif;font-size:13px;font-weight:700;color:#C8A96E;line-height:18px;mso-line-height-rule:exactly;">&#127381; 이번 달 스타벅스 기프트카드 당첨자</p>
+<table role="presentation" border="0" cellpadding="0" cellspacing="0">${wRows}</table>
+<p style="margin:10px 0 0 0;font-family:'Malgun Gothic','맑은 고딕',Arial,sans-serif;font-size:11px;color:#8888AA;line-height:17px;mso-line-height-rule:exactly;">당첨자분들께는 별도로 연락드릴 예정입니다.</p>
+</td></tr></table>
+</td></tr>
+
+<tr><td style="padding:28px 48px;">
+<p style="margin:0 0 16px 0;font-family:'Malgun Gothic','맑은 고딕',Arial,sans-serif;font-size:11px;font-weight:700;color:#888888;letter-spacing:2px;line-height:16px;mso-line-height-rule:exactly;">THIS MONTH</p>
+<table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%"><tr>
+<td valign="top" width="48%" style="border-top:3px solid #1A1A2E;padding-top:12px;">
+<p style="margin:0 0 8px 0;font-family:'Malgun Gothic','맑은 고딕',Arial,sans-serif;font-size:15px;font-weight:700;color:#1A1A2E;line-height:22px;mso-line-height-rule:exactly;">${D.leftColTitle}</p>
+<p style="margin:0;font-family:'Malgun Gothic','맑은 고딕',Arial,sans-serif;font-size:13px;color:#444444;line-height:22px;mso-line-height-rule:exactly;">${D.leftColContent.replace(/\n/g,"<br />")}</p>
+</td>
+<td width="4%">&nbsp;</td>
+<td valign="top" width="48%" style="border-top:3px solid #C8A96E;padding-top:12px;">
+<p style="margin:0 0 8px 0;font-family:'Malgun Gothic','맑은 고딕',Arial,sans-serif;font-size:15px;font-weight:700;color:#1A1A2E;line-height:22px;mso-line-height-rule:exactly;">${D.rightColTitle}</p>
+<p style="margin:0;font-family:'Malgun Gothic','맑은 고딕',Arial,sans-serif;font-size:13px;color:#444444;line-height:22px;mso-line-height-rule:exactly;">${D.rightColContent.replace(/\n/g,"<br />")}</p>
+</td>
+</tr></table>
+</td></tr>
+
+<tr><td style="background-color:#F4F1EC;padding:28px 48px;">
+<p style="margin:0 0 14px 0;font-family:'Malgun Gothic','맑은 고딕',Arial,sans-serif;font-size:11px;font-weight:700;color:#888888;letter-spacing:2px;line-height:16px;mso-line-height-rule:exactly;">APPLICATION QUESTION</p>
+${imgBlock}
+<table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td style="background-color:#1A1A2E;border-left:4px solid #C8A96E;padding:18px 20px;">
+<p style="margin:0;font-family:'Malgun Gothic','맑은 고딕',Arial,sans-serif;font-size:14px;color:#FFFFFF;line-height:24px;mso-line-height-rule:exactly;">${D.appQuestion.replace(/\n/g,"<br />")}</p>
+</td></tr></table>
+</td></tr>
+
+<tr><td style="background-color:#1A1A2E;padding:28px 48px;">
+<p style="margin:0 0 6px 0;font-family:'Malgun Gothic','맑은 고딕',Arial,sans-serif;font-size:11px;font-weight:700;color:#C8A96E;letter-spacing:2px;line-height:16px;mso-line-height-rule:exactly;">REFLECTION QUESTION</p>
+<p style="margin:0 0 18px 0;font-family:'Malgun Gothic','맑은 고딕',Arial,sans-serif;font-size:16px;font-weight:700;color:#FFFFFF;line-height:22px;mso-line-height-rule:exactly;">이달의 성찰 질문</p>
+${rRows}
+<table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top:18px;"><tr><td align="center" style="background-color:#C8A96E;padding:12px 0;"><a href="${D.reflectionSubmitUrl}" target="_blank" style="font-family:'Malgun Gothic','맑은 고딕',Arial,sans-serif;font-size:13px;font-weight:700;color:#1A1A2E;text-decoration:none;letter-spacing:1px;line-height:18px;mso-line-height-rule:exactly;display:block;">&#9997; 성찰 질문 제출하기</a></td></tr></table>
+</td></tr>
+
+<tr><td style="padding:28px 48px;">
+<p style="margin:0 0 14px 0;font-family:'Malgun Gothic','맑은 고딕',Arial,sans-serif;font-size:11px;font-weight:700;color:#888888;letter-spacing:2px;line-height:16px;mso-line-height-rule:exactly;">TIP OF THE MONTH</p>
+<table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td style="background-color:#F4F1EC;border-left:4px solid #C8A96E;padding:18px 20px;">
+<p style="margin:0 0 6px 0;font-family:'Malgun Gothic','맑은 고딕',Arial,sans-serif;font-size:15px;font-weight:700;color:#1A1A2E;line-height:22px;mso-line-height-rule:exactly;">${D.tipTitle}</p>
+<p style="margin:0;font-family:'Malgun Gothic','맑은 고딕',Arial,sans-serif;font-size:13px;color:#444444;line-height:22px;mso-line-height-rule:exactly;">${D.tipContent.replace(/\n/g,"<br />")}</p>
+</td></tr></table>
+</td></tr>
+
+<tr><td style="background-color:#1A1A2E;padding:28px 48px 24px 48px;">
+<p style="margin:0 0 6px 0;font-family:'Malgun Gothic','맑은 고딕',Arial,sans-serif;font-size:11px;font-weight:700;color:#C8A96E;letter-spacing:2px;line-height:16px;mso-line-height-rule:exactly;">PAST EDITIONS</p>
+<p style="margin:0 0 16px 0;font-family:'Malgun Gothic','맑은 고딕',Arial,sans-serif;font-size:14px;font-weight:700;color:#FFFFFF;line-height:20px;mso-line-height-rule:exactly;">지난 에디션 보기</p>
+${archiveHTML}
+</td></tr>
+
+<tr><td style="background-color:#C8A96E;height:3px;line-height:3px;font-size:3px;mso-line-height-rule:exactly;">&nbsp;</td></tr>
+<tr><td style="background-color:#1A1A2E;padding:22px 48px;">
+<table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%"><tr>
+<td valign="top"><p style="margin:0 0 4px 0;font-family:'Malgun Gothic','맑은 고딕',Arial,sans-serif;font-size:13px;font-weight:700;color:#FFFFFF;line-height:18px;mso-line-height-rule:exactly;">LINK 리더십 뉴스레터</p><p style="margin:0;font-family:'Malgun Gothic','맑은 고딕',Arial,sans-serif;font-size:11px;color:#8888AA;line-height:17px;mso-line-height-rule:exactly;">매월 발행 | 리더십 인사이트 &amp; 실천 가이드</p></td>
+<td valign="top" align="right"><p style="margin:0;font-family:'Malgun Gothic','맑은 고딕',Arial,sans-serif;font-size:11px;color:#556677;line-height:17px;mso-line-height-rule:exactly;text-align:right;">수신 거부는 담당자에게 회신해 주세요.</p></td>
+</tr></table>
+</td></tr>
+<tr><td style="background-color:#F4F1EC;height:20px;line-height:20px;font-size:20px;mso-line-height-rule:exactly;">&nbsp;</td></tr>
+</table></td></tr></table>
+</body></html>`;
+}
+
+function copyHTML(){
+  const html=generateHTML();
+  navigator.clipboard.writeText(html).then(()=>{
+    const btn=$("copyBtn");
+    btn.textContent="복사 완료!";btn.classList.add("ok");
+    setTimeout(()=>{btn.textContent="Outlook HTML 복사하기";btn.classList.remove("ok");},2000);
+  });
+}
+
+renderTabs();renderFields();renderPreview();
+</script>
